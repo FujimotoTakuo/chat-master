@@ -14,7 +14,7 @@ if __name__ == "__main__":
     
     m = MeCab.Tagger ("-Owakati")
     for line in in_file:
-        result = tagger.parse(line)
+        result = m.parse(line)
         out_file.write(result)
     
 
