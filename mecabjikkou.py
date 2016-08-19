@@ -1,6 +1,7 @@
 # coding: utf-8
 
 import MeCab
+import sys
 
 ### Execute
 if __name__ == "__main__":
