@@ -28,17 +28,17 @@ from tensorflow.models.rnn.translate import seq2seq_model
 from tensorflow.python.platform import gfile
 
 
-tf.app.flags.DEFINE_float("learning_rate", 0.3, "Learning rate.")
-tf.app.flags.DEFINE_float("learning_rate_decay_factor", 0.99,
+tf.app.flags.DEFINE_float("learning_rate", 0.5, "Learning rate.")
+tf.app.flags.DEFINE_float("learning_rate_decay_factor", 0.7,
                           "Learning rate decays by this much.")
 tf.app.flags.DEFINE_float("max_gradient_norm", 5.0,
                           "Clip gradients to this norm.")
-tf.app.flags.DEFINE_integer("batch_size", 64,
+tf.app.flags.DEFINE_integer("batch_size", 10,
                             "Batch size to use during training.")
 tf.app.flags.DEFINE_integer("size", 256, "Size of each model layer.")
 tf.app.flags.DEFINE_integer("num_layers", 2, "Number of layers in the model.")
-tf.app.flags.DEFINE_integer("in_vocab_size", 235000, "input vocabulary size.")
-tf.app.flags.DEFINE_integer("out_vocab_size", 235000, "output vocabulary size.")
+tf.app.flags.DEFINE_integer("in_vocab_size", 20000, "input vocabulary size.")
+tf.app.flags.DEFINE_integer("out_vocab_size", 20000, "output vocabulary size.")
 tf.app.flags.DEFINE_string("data_dir", "datas", "Data directory")
 tf.app.flags.DEFINE_string("train_dir", "datas", "Training directory.")
 tf.app.flags.DEFINE_integer("max_train_data_size", 0,
