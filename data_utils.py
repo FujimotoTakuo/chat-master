@@ -160,8 +160,10 @@ def data_to_token_ids(data_path, target_path, vocabulary_path,
 def prepare_wmt_data(data_dir, in_vocabulary_size, out_vocabulary_size):
 
   train_path = os.path.join(data_dir, "train_data")
-  tweet_path_in = os.path.join(data_dir, "first.txt")
-  tweet_path_out = os.path.join(data_dir, "second.txt")
+  tweet_path_in = os.path.join(data_dir, "q_cycle.txt")
+  tweet_path_out = os.path.join(data_dir, "a_cycle.txt")
+  tst_path_in = os.path.join(data_dir, "t_q_cycle.txt")
+  tst_path_out = os.path.join(data_dir, "t_a_cycle.txt")
   dev_path = os.path.join(data_dir, "test_data")
 
 
@@ -203,8 +205,8 @@ def prepare_wmt_data(data_dir, in_vocabulary_size, out_vocabulary_size):
 
   out_dev_ids_path = dev_path + ("_ids_out.txt" )
   in_dev_ids_path = dev_path + ("_ids_in.txt" )
-  data_to_token_ids(tweet_path_out, out_dev_ids_path, out_vocab_path)
-  data_to_token_ids(tweet_path_in, in_dev_ids_path, in_vocab_path)
+  data_to_token_ids(tst_path_out, out_dev_ids_path, out_vocab_path)
+  data_to_token_ids(tst_path_in, in_dev_ids_path, in_vocab_path)
 
   return (in_train_ids_path, out_train_ids_path,
           in_dev_ids_path, out_dev_ids_path,
