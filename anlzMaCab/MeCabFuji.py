@@ -3,10 +3,6 @@
 import MeCab
 import sys
 
-if __name__ == "__main__":
-    param = sys.argv
-    path = param[1]
-    mecab(path)
     
 ### Execute
 def mecab(path):
@@ -117,5 +113,8 @@ def mecab(path):
     all_file.close()
 
 
-
+if __name__ == "__main__":
+    param = sys.argv
+    path = param[1]
+    mecab(path)
 
