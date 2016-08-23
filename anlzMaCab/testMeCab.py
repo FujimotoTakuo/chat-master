@@ -34,6 +34,7 @@ if __name__ == "__main__":
     
     all_file = open('all.txt', 'w')
     for  (hinshi, text_list) in hinshiMap.iteritems():
+        print("write : " + hinshi + '.txt' + " / count : " + str(len(text_list)))
         write_file = open(hinshi + '.txt', 'w')
         for text in text_list:
             write_file.write(text + "\n")
