@@ -3,18 +3,19 @@
 import MeCab
 import sys
 
-### Execute
 if __name__ == "__main__":
-    print(u'Main run')
     param = sys.argv
     path = param[1]
+    mecab(path)
+    
+### Execute
+def mecab(path):
     out_path = path + '_mecabed.txt'
     in_file = open(path, 'r')
     out_file = open(out_path, 'w')
     
     m = MeCab.Tagger ("-Ochasen")
     
-    hinshiMap = {}
     
     kuttuke_list = ["名詞-and-接尾-and-一般-and-*",
                     "助詞-and-終助詞-and-*-and-*",
@@ -52,8 +53,11 @@ if __name__ == "__main__":
     # ループ終了 : 最終行が前テキストに入っているので、出力
     # 
     
+    text_list = []
+    
     for line in in_file:
         result_node = m.parseToNode(line)
+        mecabed_text = ""
         before_text = ""
         before_hinshi = ""
         while result_node:
@@ -93,36 +97,22 @@ if __name__ == "__main__":
                 continue
             
             # before を書き込む
+            mecabed_text = mecabed_text + '' + before_text
             
-            if before_hinshi in hinshiMap:
-                list = hinshiMap[before_hinshi]
-                if not before_text in list:
-                    list.append(before_text)
-            else :
-                list = [before_text]
-                hinshiMap[before_hinshi] = list
             # 今のテキストは保持して次へ
             before_text = current_text
             before_hinshi = hinshi
             
             result_node = result_node.next
     
-        if before_hinshi in hinshiMap:
-            list = hinshiMap[before_hinshi]
-            if not before_text in list:
-                list.append(before_text)
-        else :
-            list = [before_text]
-            hinshiMap[before_hinshi] = list
+        # before を書き込む
+        mecabed_text = mecabed_text + '' + before_text
+        # 最初のスペースを削除してappend
+        text_list.append(mecabed_text[1:-1])
     
     all_file = open(out_path, 'w')
-    for  (hinshi, text_list) in hinshiMap.iteritems():
-        print("write : " + hinshi + '.txt' + " / count : " + str(len(text_list)))
-        # write_file = open(hinshi + '.txt', 'w')
-        for text in text_list:
-            # write_file.write(text + "\n")
-            all_file.write(hinshi + ',' + text + "\n")
-        # write_file.close()
+    for  str_text in text_list:
+        all_file.write(str_text + "\n")
     
     all_file.close()
 
