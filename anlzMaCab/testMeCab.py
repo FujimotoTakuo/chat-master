@@ -24,10 +24,12 @@ if __name__ == "__main__":
                 continue
             hinshi = split_array[0] + "-and-" + split_array[1] + "-and-" + split_array[2] + "-and-" + split_array[3]
             if hinshi in hinshiMap:
-              hinshiMap[hinshi].append(result_node.surface)
+                list = hinshiMap[hinshi]
+                if not result_node.surface in list:
+                    list.append(result_node.surface)
             else :
-              list = [result_node.surface]
-              hinshiMap[hinshi] = list
+                list = [result_node.surface]
+                hinshiMap[hinshi] = list
             result_node = result_node.next
     
     all_file = open('all.txt', 'w')
