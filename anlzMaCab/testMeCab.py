@@ -96,7 +96,8 @@ if __name__ == "__main__":
             
             if before_hinshi in hinshiMap:
                 list = hinshiMap[before_hinshi]
-                list.append(before_text)
+                if not before_text in list:
+                    list.append(before_text)
             else :
                 list = [before_text]
                 hinshiMap[before_hinshi] = list
@@ -108,7 +109,8 @@ if __name__ == "__main__":
     
         if before_hinshi in hinshiMap:
             list = hinshiMap[before_hinshi]
-            list.append(before_text)
+            if not before_text in list:
+                list.append(before_text)
         else :
             list = [before_text]
             hinshiMap[before_hinshi] = list
