@@ -34,7 +34,9 @@ if __name__ == "__main__":
         for text in text_list:
             write_file.write(text + "\n")
             all_file.write(hinshi + ',' + text + "\n")
-            
+        write_file.close()
+    
+    all_file.close()
 
 
 
