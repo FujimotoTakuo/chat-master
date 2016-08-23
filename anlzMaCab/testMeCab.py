@@ -41,11 +41,21 @@ if __name__ == "__main__":
     hajikknai_kigou_list = ["記号-and-句点-and-*-and-*", "記号-and-読点-and-*-and-*"]
     
     
+    # 頭にくっつけたり、後ろにくっつけたりする必要がある
+    # そのまま出力はしない。くっつけの判定を終えて確定した前テキストから出力をする
+    # まず、1行目は、前テキストに保持して終わり
+    # 2行目以降は、
+    #   1.前テキストが、頭にくっつける場合 : 前テキスト + 今テキスト　品詞は、今テキスト(今テキスト品詞を前テキスト品詞にする)
+    #   2.今テキストが、後ろにくっつける場合 : 前テキスト + 今テキスト 品詞は、前テキスト
+    #   ⇒  1 2は同時に出ないはず
+    #   1, 2 にも該当しない場合 : 前テキストは、確定した。出力する。出力後、前テキスト情報に今テキスト情報を入れる
+    # ループ終了 : 最終行が前テキストに入っているので、出力
+    # 
+    
     for line in in_file:
         result_node = m.parseToNode(line)
         before_text = ""
         before_hinshi = ""
-        is_before_write = False
         while result_node:
             split_array = result_node.feature.split(",")
             if ('/' in split_array[0]) :
@@ -58,8 +68,6 @@ if __name__ == "__main__":
                 before_text = current_text
                 before_hinshi = hinshi
                 result_node = result_node.next
-                # まだ書き込んでいないのでtrue
-                is_before_write = True
                 continue
             
             # 記号は基本はじくが、句読点ははじかない。
@@ -75,8 +83,6 @@ if __name__ == "__main__":
                 # before_hinshiを変える
                 before_hinshi = hinshi
                 result_node = result_node.next
-                # まだ書き込んでいないのでtrue
-                is_before_write = True
                 continue
             
             # 今のテキストが、後ろにくっつける品詞かチェック
@@ -84,22 +90,28 @@ if __name__ == "__main__":
                 # 前のテキスト + 今のテキスト　まだ単語の確定はしない before_hinshiは変えない。
                 before_text = before_text + current_text
                 result_node = result_node.next
-                # まだ書き込んでいないのでtrue
-                is_before_write = True
                 continue
             
-            if hinshi in hinshiMap:
-                list = hinshiMap[hinshi]
-                if not current_text in list:
-                    list.append(current_text)
-                if is_before_write:
-                    list.append(before_text)
+            # before を書き込む
+            
+            if before_hinshi in hinshiMap:
+                list = hinshiMap[before_hinshi]
+                list.append(before_text)
             else :
-                list = [current_text]
-                if is_before_write:
-                    list.append(before_text)
-                hinshiMap[hinshi] = list
+                list = [before_text]
+                hinshiMap[before_hinshi] = list
+            # 今のテキストは保持して次へ
+            before_text = current_text
+            before_hinshi = hinshi
+            
             result_node = result_node.next
+    
+        if before_hinshi in hinshiMap:
+            list = hinshiMap[before_hinshi]
+            list.append(before_text)
+        else :
+            list = [before_text]
+            hinshiMap[before_hinshi] = list
     
     all_file = open('all.txt', 'w')
     for  (hinshi, text_list) in hinshiMap.iteritems():
