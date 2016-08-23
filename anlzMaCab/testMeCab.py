@@ -21,6 +21,7 @@ if __name__ == "__main__":
         while result_node:
             split_array = result_node.feature.split(",")
             if ('/' in split_array[0]) :
+                result_node = result_node.next
                 continue
             hinshi = split_array[0] + "-and-" + split_array[1] + "-and-" + split_array[2] + "-and-" + split_array[3]
             if hinshi in hinshiMap:
