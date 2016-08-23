@@ -45,6 +45,7 @@ if __name__ == "__main__":
         result_node = m.parseToNode(line)
         before_text = ""
         before_hinshi = ""
+        is_before_write = False
         while result_node:
             split_array = result_node.feature.split(",")
             if ('/' in split_array[0]) :
@@ -57,6 +58,8 @@ if __name__ == "__main__":
                 before_text = current_text
                 before_hinshi = hinshi
                 result_node = result_node.next
+                # まだ書き込んでいないのでtrue
+                is_before_write = True
                 continue
             
             # 記号は基本はじくが、句読点ははじかない。
@@ -72,6 +75,8 @@ if __name__ == "__main__":
                 # before_hinshiを変える
                 before_hinshi = hinshi
                 result_node = result_node.next
+                # まだ書き込んでいないのでtrue
+                is_before_write = True
                 continue
             
             # 今のテキストが、後ろにくっつける品詞かチェック
@@ -79,14 +84,20 @@ if __name__ == "__main__":
                 # 前のテキスト + 今のテキスト　まだ単語の確定はしない before_hinshiは変えない。
                 before_text = before_text + current_text
                 result_node = result_node.next
+                # まだ書き込んでいないのでtrue
+                is_before_write = True
                 continue
             
             if hinshi in hinshiMap:
                 list = hinshiMap[hinshi]
                 if not current_text in list:
                     list.append(current_text)
+                if is_before_write:
+                    list.append(before_text)
             else :
                 list = [current_text]
+                if is_before_write:
+                    list.append(before_text)
                 hinshiMap[hinshi] = list
             result_node = result_node.next
     
