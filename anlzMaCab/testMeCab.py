@@ -20,6 +20,8 @@ if __name__ == "__main__":
         result_node = m.parseToNode(line)
         while result_node:
             split_array = result_node.feature.split(",")
+            if ('/' in split_array[0]) :
+                continue
             hinshi = split_array[0] + "-and-" + split_array[1] + "-and-" + split_array[2] + "-and-" + split_array[3]
             if hinshi in hinshiMap:
               hinshiMap[hinshi].append(result_node.surface)
