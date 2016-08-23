@@ -115,7 +115,7 @@ if __name__ == "__main__":
             list = [before_text]
             hinshiMap[before_hinshi] = list
     
-    all_file = open('all.txt', 'w')
+    all_file = open(out_path, 'w')
     for  (hinshi, text_list) in hinshiMap.iteritems():
         print("write : " + hinshi + '.txt' + " / count : " + str(len(text_list)))
         # write_file = open(hinshi + '.txt', 'w')
