@@ -98,7 +98,7 @@ if __name__ == "__main__":
             if '記号' in split_array[0] and not hinshi in hajikknai_kigou_list:
                 result_node = result_node.next
                 continue
-            
+
             # 初回はブランク 保持して次へ
             if not before_text:
                 before_text = current_text

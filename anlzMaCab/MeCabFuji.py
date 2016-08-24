@@ -58,17 +58,18 @@ def mecab(text):
                          "してますが", "しておらず", "されるものの", "しないといけない", "してありました", "してない",
                          "したいです", "しても良い", "してもよい", "してもいい", "されず", "しているので",
                          "していないので", "しないので", "してくれたら", "しなくてはなりません", "しておりました", "しつつ",
-                         "していたので", "しそうなので", "してしまい", "したので", "して下さい", "してください",
-                         "してきましたが", "したくないので", "してもらう", "さしたら", "させたら", "させて下さい",
-                         "させてください", "し終えた", "しおえた", "しておけば", "したが", "して欲しいです",
-                         "してほしいです", "していく", "していると", "しなくて", "してしまう", "してい",
-                         "しながら", "しないのに", "してくる", "してあり", "しにくく", "しませんでした",
-                         "してた", "してある", "させていこう", "させていただこう", "してれば", "していれば",
-                         "しておりません", "しなければならない", "しないで"]
+                         "していたので", "しそうなので", "してしまい", "したので", "して下さい", "してください", "し",
+                         "してきましたが", "したくないので", "してもらう", "さしたら", "させたら", "させて下さい", "では", "するもの", "するものです",
+                         "させてください", "し終えた", "しおえた", "しておけば", "したが", "して欲しいです", "には", "で",
+                         "してほしいです", "していく", "していると", "しなくて", "してしまう", "してい", "は", "が", "を", "すること",
+                         "しながら", "しないのに", "してくる", "してあり", "しにくく", "しませんでした", "に", "の", "も", "しないこと",
+                         "してた", "してある", "させていこう", "させていただこう", "してれば", "していれば", "だ", "へ",
+                         "しておりません", "しなければならない", "しないで", "て", "って", "っ", "っていう", "た", "った", "だった"]
 
     atama_list = ["接頭詞-and-名詞接続-and-*-and-*"]
 
     hajikknai_kigou_list = ["記号-and-句点-and-*-and-*", "記号-and-読点-and-*-and-*"]
+    
     result_node = m.parseToNode(text)
     mecabed_text = ""
     before_text = ""
@@ -80,12 +81,7 @@ def mecab(text):
             continue
         current_text = result_node.surface
         hinshi = split_array[0] + "-and-" + split_array[1] + "-and-" + split_array[2] + "-and-" + split_array[3]
-        # 初回はブランク 保持して次へ
-        if not before_text:
-            before_text = current_text
-            before_hinshi = hinshi
-            result_node = result_node.next
-            continue
+
 
         # 記号は基本はじくが、句読点ははじかない。
         # はじかないListに含まれない、記号はcontinue
@@ -93,8 +89,16 @@ def mecab(text):
             result_node = result_node.next
             continue
 
+        # 初回はブランク 保持して次へ
+        if not before_text:
+            before_text = current_text
+            before_hinshi = hinshi
+            result_node = result_node.next
+            continue
+
+
         # 前のテキストが、頭に付けるかチェック
-        if before_hinshi in atama_list:
+        if before_hinshi in atama_list and not hinshi in hajikknai_kigou_list:
             # 前のテキスト + 今のテキスト
             before_text = before_text + current_text
             # before_hinshiを変える
@@ -103,7 +107,7 @@ def mecab(text):
             continue
 
         # 今のテキストが、後ろにくっつける品詞かチェック
-        if hinshi in kuttuke_list:
+        if (hinshi in kuttuke_list or current_text in kuttuke_word_list) and not before_hinshi in hajikknai_kigou_list:
             # 前のテキスト + 今のテキスト　まだ単語の確定はしない before_hinshiは変えない。
             before_text = before_text + current_text
             result_node = result_node.next
