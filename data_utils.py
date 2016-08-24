@@ -59,7 +59,7 @@ def create_vocabulary(vocabulary_path, data_path, max_vocabulary_size,
       tokens = tokenizer(line) if tokenizer else basic_tokenizer(line)
       isUrl = False
       for w in tokens:
-        if "http://" in w:
+        if "http" in w:
           isUrl = True
           print("START  url exclude. " + w)
           continue
