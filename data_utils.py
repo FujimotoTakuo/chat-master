@@ -51,9 +51,9 @@ def create_vocabulary(vocabulary_path, data_path, max_vocabulary_size,
 
     f = open(data_path,"r")
     counter = 0
+    p = re.compile("([a-zA-Z0-9.]+)")
     for line in f:
       counter = counter + 1
-      p = re.compile("([a-zA-Z0-9.]+)")
       if counter % 100 == 0:
         print("  processing line %d" % counter)
       tokens = tokenizer(line) if tokenizer else basic_tokenizer(line)
