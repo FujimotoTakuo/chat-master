@@ -213,7 +213,7 @@ def decode():
 
       bucket_id = min([b for b in xrange(len(_buckets))
                    if _buckets[b][0] > len(token_ids)])
-      print("【DEBUG】 use_bucket : " + bucket_id)
+      print("【DEBUG】 use_bucket : " + str(bucket_id))
 
       encoder_inputs, decoder_inputs, target_weights = model.get_batch(
           {bucket_id: [(token_ids, [])]}, bucket_id)
