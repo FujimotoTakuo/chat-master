@@ -115,7 +115,7 @@ if __name__ == "__main__":
                 continue
 
             # 今のテキストが、後ろにくっつける品詞かチェック
-            if (hinshi in kuttuke_list or current_text in kuttuke_word_list) and not hinshi in hajikknai_kigou_list:
+            if (hinshi in kuttuke_list or current_text in kuttuke_word_list) and not before_hinshi in hajikknai_kigou_list:
                 # 前のテキスト + 今のテキスト　まだ単語の確定はしない before_hinshiは変えない。
                 before_text = before_text + current_text
                 result_node = result_node.next
