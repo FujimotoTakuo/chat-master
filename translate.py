@@ -197,7 +197,7 @@ def decode():
       print("【DEBUG】 mecabed_sentence : " + text)
 
       token_ids = data_utils.sentence_to_token_ids(text, in_vocab)
-      print("【DEBUG】 token_ids : " + token_ids + " / len : " + str(len(token_ids)))
+      print("【DEBUG】 token_ids : " + str(token_ids) + " / len : " + str(len(token_ids)))
 
       bucket_id = min([b for b in xrange(len(_buckets))
                        if _buckets[b][0] > len(token_ids)])
