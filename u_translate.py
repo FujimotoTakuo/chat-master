@@ -204,7 +204,7 @@ def decode():
     sentence = sys.stdin.readline()
     while sentence:
 
-      print("【DEBUG】 sentence : " + sentence)
+      # print("【DEBUG】 sentence : " + sentence)
       text = mf.mecab(sentence)
       print("【DEBUG】 mecabed_sentence : " + text)
 
