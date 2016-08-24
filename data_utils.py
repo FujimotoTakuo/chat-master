@@ -63,12 +63,13 @@ def create_vocabulary(vocabulary_path, data_path, max_vocabulary_size,
           isUrl = True
           print("START  url exclude. " + w)
           continue
-        if isUrl and p.match(w):
-            print("PROCESSING  url exclude. " + w)
-            continue
-        else:
-            print("END  url exclude end. " + w)
-            isUrl = False
+        if isUrl:
+            if p.match(w):
+                print("PROCESSING  url exclude. " + w)
+                continue
+            else:
+                print("END  url exclude end. " + w)
+                isUrl = False
         word = re.sub(_DIGIT_RE, "0", w) if normalize_digits else w
         if word in vocab:
           vocab[word] += 1
