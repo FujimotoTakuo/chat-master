@@ -92,6 +92,13 @@ if __name__ == "__main__":
                 continue
             current_text = result_node.surface
             hinshi = split_array[0] + "-and-" + split_array[1] + "-and-" + split_array[2] + "-and-" + split_array[3]
+
+            # 記号は基本はじくが、句読点ははじかない。
+            # はじかないListに含まれない、記号はcontinue
+            if '記号' in split_array[0] and not hinshi in hajikknai_kigou_list:
+                result_node = result_node.next
+                continue
+            
             # 初回はブランク 保持して次へ
             if not before_text:
                 before_text = current_text
