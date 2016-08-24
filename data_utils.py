@@ -53,14 +53,22 @@ def create_vocabulary(vocabulary_path, data_path, max_vocabulary_size,
     counter = 0
     for line in f:
       counter = counter + 1
-      p = re.compile("([ぁ-んァ-ン一-龥]+)")
+      p = re.compile("([a-zA-Z0-9.]+)")
       if counter % 100 == 0:
         print("  processing line %d" % counter)
       tokens = tokenizer(line) if tokenizer else basic_tokenizer(line)
+      isUrl = False
       for w in tokens:
-        if not p.match(w):
-          print('Alphabet or mark or Emoji : ' + w)
+        if "http://" in w:
+          isUrl = True
+          print("START  url exclude. " + w)
           continue
+        if isUrl and p.match(w):
+            print("PROCESSING  url exclude. " + w)
+            continue
+        else:
+            print("END  url exclude end. " + w)
+            isUrl = False
         word = re.sub(_DIGIT_RE, "0", w) if normalize_digits else w
         if word in vocab:
           vocab[word] += 1
@@ -78,39 +86,6 @@ def create_vocabulary(vocabulary_path, data_path, max_vocabulary_size,
     vocab_file.close()
     f.close()
 
-def create_vocabularyByArray(vocabulary_path, text_Array, max_vocabulary_size,
-                             tokenizer=None, normalize_digits=True):
-
-    print("Creating vocabulary %s from Twitter_data " % (vocabulary_path))
-    vocab = {}
-
-    # f = open(data_path,"r")
-    counterA = 0
-    for line in text_Array:
-      print(type(line))
-      counterA = counterA + 1
-      if counterA % 100 == 0:
-        print("  processing line %d" % counterA)
-      tokens = tokenizer(line) if tokenizer else basic_tokenizer(line)
-      for w in tokens:
-        word = re.sub(_DIGIT_RE, "0", w) if normalize_digits else w
-        if word in vocab:
-          vocab[word] += 1
-        else:
-          vocab[word] = 1
-    vocab_list = _START_VOCAB + sorted(vocab, key=vocab.get, reverse=True)
-    if len(vocab_list) > max_vocabulary_size:
-      vocab_list = vocab_list[:max_vocabulary_size]
-
-    vocab_file = open(vocabulary_path,"w")
-    # このwが、アスキーになってる？
-    # 型変換をすれば済みそうだが、そもそも何でアスキー？元データをユニコードにしてるはずなのに
-    for w in vocab_list:
-    #   print(w)
-    #   print(type(w))
-      vocab_file.write(w + "\n")
-    vocab_file.close()
-    # f.close()
 
 def initialize_vocabulary(vocabulary_path):
 
