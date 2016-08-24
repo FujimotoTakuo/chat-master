@@ -30,16 +30,16 @@ from anlzMeCab import MeCabFuji as mf
 
 
 tf.app.flags.DEFINE_float("learning_rate", 0.5, "Learning rate.")
-tf.app.flags.DEFINE_float("learning_rate_decay_factor", 0.7,
+tf.app.flags.DEFINE_float("learning_rate_decay_factor", 0.9,
                           "Learning rate decays by this much.")
 tf.app.flags.DEFINE_float("max_gradient_norm", 5.0,
                           "Clip gradients to this norm.")
-tf.app.flags.DEFINE_integer("batch_size", 10,
+tf.app.flags.DEFINE_integer("batch_size", 64,
                             "Batch size to use during training.")
 tf.app.flags.DEFINE_integer("size", 256, "Size of each model layer.")
 tf.app.flags.DEFINE_integer("num_layers", 2, "Number of layers in the model.")
-tf.app.flags.DEFINE_integer("in_vocab_size", 20000, "input vocabulary size.")
-tf.app.flags.DEFINE_integer("out_vocab_size", 20000, "output vocabulary size.")
+tf.app.flags.DEFINE_integer("in_vocab_size", 200000, "input vocabulary size.")
+tf.app.flags.DEFINE_integer("out_vocab_size", 200000, "output vocabulary size.")
 tf.app.flags.DEFINE_string("data_dir", "datas", "Data directory")
 tf.app.flags.DEFINE_string("train_dir", "datas", "Training directory.")
 tf.app.flags.DEFINE_integer("max_train_data_size", 0,
@@ -53,7 +53,7 @@ tf.app.flags.DEFINE_boolean("self_test", False,
 
 FLAGS = tf.app.flags.FLAGS
 
-_buckets = [(40, 80), (70, 140), (120, 240), (250, 500)]
+_buckets = [(500, 500)]
 
 
 def read_data(source_path, target_path, max_size=None):
