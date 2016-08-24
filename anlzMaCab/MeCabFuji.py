@@ -138,7 +138,7 @@ def mecabFile(path):
     for line in in_file:
         counter += 1
         if counter % 100 == 0:
-            print("count : " str(counter))
+            print("count : " + str(counter))
         text_list.append(mecab(line))
 
     all_file = open(out_path, 'w')
