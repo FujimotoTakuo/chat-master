@@ -26,6 +26,7 @@ import tensorflow as tf
 import data_utils_twitter as data_utils
 from tensorflow.models.rnn.translate import seq2seq_model
 from tensorflow.python.platform import gfile
+import anlzMeCab.MeCabFuji as mf
 
 
 tf.app.flags.DEFINE_float("learning_rate", 0.5, "Learning rate.")
@@ -191,11 +192,16 @@ def decode():
     sys.stdout.flush()
     sentence = sys.stdin.readline()
     while sentence:
+      print("【DEBUG】 sentence : " + sentence)
+      text = mf.mecab(sentence)
+      print("【DEBUG】 mecabed_sentence : " + text)
 
-      token_ids = data_utils.sentence_to_token_ids(sentence, in_vocab)
+      token_ids = data_utils.sentence_to_token_ids(text, in_vocab)
+      print("【DEBUG】 token_ids : " + token_ids + " / len : " + str(len(token_ids)))
 
       bucket_id = min([b for b in xrange(len(_buckets))
                        if _buckets[b][0] > len(token_ids)])
+      print("【DEBUG】 use_bucket : " + bucket_id)
 
       encoder_inputs, decoder_inputs, target_weights = model.get_batch(
           {bucket_id: [(token_ids, [])]}, bucket_id)
