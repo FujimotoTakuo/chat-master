@@ -51,7 +51,7 @@ def create_vocabulary(vocabulary_path, data_path, max_vocabulary_size,
 
     f = open(data_path,"r")
     counter = 0
-    p = re.compile("([a-zA-Z0-9.:/?&=\-%+_#]+)")
+    p = re.compile("([a-zA-Z0-9.:/?&=\-%+_#]+$)")
     for line in f:
       counter = counter + 1
       if counter % 100 == 0:
