@@ -18,6 +18,10 @@ def mecab(text):
     #
 
     kuttuke_list = ["名詞-and-接尾-and-一般-and-*",
+                    "助詞-and-連体化-and-*-and-*",
+                    "名詞-and-特殊-and-助動詞語幹-and-*",
+                    "名詞-and-接尾-and-特殊-and-*",
+                    "助詞-and-副助詞／並立助詞／終助詞-and-*-and-*",
                     "助詞-and-終助詞-and-*-and-*",
                     "名詞-and-接尾-and-助数詞-and-*",
                     "名詞-and-非自立-and-一般",
