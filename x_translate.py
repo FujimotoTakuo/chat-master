@@ -26,7 +26,7 @@ import tensorflow as tf
 import data_utils_twitter as data_utils
 from tensorflow.models.rnn.translate import seq2seq_model
 from tensorflow.python.platform import gfile
-from anlzMeCab import MeCabFuji as mf
+import MeCabFuji as mf
 
 
 tf.app.flags.DEFINE_float("learning_rate", 0.5, "Learning rate.")
