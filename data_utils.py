@@ -138,8 +138,8 @@ def prepare_wmt_data(data_dir, in_vocabulary_size, out_vocabulary_size):
   train_path = os.path.join(data_dir, "train_data")
   tweet_path_in = os.path.join(os.path.join(data_dir, "text"), "chie_question.txt_mecabed.txt")
   tweet_path_out = os.path.join(os.path.join(data_dir, "text"), "chie_answer.txt_mecabed.txt")
-  tst_path_in = os.path.join(os.path.join(data_dir, "text"), "goo_question.txt_mecabed.txt")
-  tst_path_out = os.path.join(os.path.join(data_dir, "text"), "goo_answer.txt_mecabed.txt")
+  tst_path_in = os.path.join(os.path.join(data_dir, "text"), "test_question.txt")
+  tst_path_out = os.path.join(os.path.join(data_dir, "text"), "test_answer.txt")
   dev_path = os.path.join(data_dir, "test_data")
 
 
