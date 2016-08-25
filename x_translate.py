@@ -69,9 +69,11 @@ def read_data(read_from_index, read_to_index, source_path, target_path, max_size
   while source and target and (not max_size or counter < max_size):
     counter += 1
     # カウンターがfromより小さいまたは、カウンターがtoより大きい -> 範囲外
-    if counter < read_from_index or read_to_index < counter:
+    if counter < read_from_index:
       source, target = source_file.readline(), target_file.readline()
       continue
+    if read_to_index < counter:
+      break
 
     if counter % 50 == 0:
       print("  reading data line %d" % counter)
