@@ -30,21 +30,21 @@ import MeCabFuji as mf
 
 
 tf.app.flags.DEFINE_float("learning_rate", 0.5, "Learning rate.")
-tf.app.flags.DEFINE_float("learning_rate_decay_factor", 0.9,
+tf.app.flags.DEFINE_float("learning_rate_decay_factor", 0.99,
                           "Learning rate decays by this much.")
 tf.app.flags.DEFINE_float("max_gradient_norm", 5.0,
                           "Clip gradients to this norm.")
-tf.app.flags.DEFINE_integer("batch_size", 64,
+tf.app.flags.DEFINE_integer("batch_size", 16,
                             "Batch size to use during training.")
-tf.app.flags.DEFINE_integer("size", 256, "Size of each model layer.")
-tf.app.flags.DEFINE_integer("num_layers", 2, "Number of layers in the model.")
+tf.app.flags.DEFINE_integer("size", 64, "Size of each model layer.")
+tf.app.flags.DEFINE_integer("num_layers", 1, "Number of layers in the model.")
 tf.app.flags.DEFINE_integer("in_vocab_size", 2000000, "input vocabulary size.")
 tf.app.flags.DEFINE_integer("out_vocab_size", 2300000, "output vocabulary size.")
 tf.app.flags.DEFINE_string("data_dir", "datas", "Data directory")
 tf.app.flags.DEFINE_string("train_dir", "datas", "Training directory.")
 tf.app.flags.DEFINE_integer("max_train_data_size", 0,
                             "Limit on the size of training data (0: no limit).")
-tf.app.flags.DEFINE_integer("steps_per_checkpoint", 50,
+tf.app.flags.DEFINE_integer("steps_per_checkpoint", 200,
                             "How many training steps to do per checkpoint.")
 tf.app.flags.DEFINE_boolean("decode", False,
                             "Set to True for interactive decoding.")
@@ -113,7 +113,7 @@ def create_model(session, forward_only):
 
 
 def train(read_from_index, read_to_index):
-
+  print("train arv")
   print("Preparing data in %s" % FLAGS.data_dir)
   # in_train, out_train, in_dev, out_dev, _, _ = data_utils.prepare_wmt_data(
   #     FLAGS.data_dir, FLAGS.in_vocab_size, FLAGS.out_vocab_size)
@@ -170,8 +170,6 @@ def train(read_from_index, read_to_index):
                "%.2f" % (model.global_step.eval(), model.learning_rate.eval(),
                          step_time, perplexity))
 
-        if perplexity < 2:
-          break
 
         if len(previous_losses) > 2 and loss > max(previous_losses[-3:]):
           if model.learning_rate * model.learning_rate_decay_factor > 0.001:
@@ -191,6 +189,9 @@ def train(read_from_index, read_to_index):
           eval_ppx = math.exp(eval_loss) if eval_loss < 300 else float('inf')
           print("  eval: bucket %d perplexity %.2f" % (bucket_id, eval_ppx))
         sys.stdout.flush()
+        if perplexity < 2:
+          print("perplexity < 2 break")
+          break
 
 
 def decode():
@@ -262,6 +263,7 @@ def self_test():
 
 
 def main(_):
+  print("defMain")
   if FLAGS.self_test:
     self_test()
   elif FLAGS.decode:
@@ -285,10 +287,12 @@ def main(_):
         # 例 読込件数:10000件の場合
         #    1回目 : from=0*10000+1=1, to=(0+1)*10000=10000 -> 1～10000
         #    2回目 : from=1*10000+1=10001, to=(1+1)*10000=20000 -> 10001～20000
+        print("go train")
         train((counter * read_row) + 1, ((counter + 1) * read_row))
         counter += 1
 
 
 
 if __name__ == "__main__":
+  print("run main")
   tf.app.run()
