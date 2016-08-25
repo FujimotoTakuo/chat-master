@@ -1,4 +1,7 @@
 #!/bin/sh
 
-echo "train start" >> nohup.txt
-nohup python u_translate.py &
+cp nohup.out bak_nohup.out
+cat /dev/null > nohup.out
+
+nohup python x_translate.py &
+
