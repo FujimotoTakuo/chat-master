@@ -133,7 +133,7 @@ def train(read_from_index, read_to_index):
 
     print ("Reading development and training data (limit: %d)."
            % FLAGS.max_train_data_size)
-    dev_set = read_data(read_from_index, read_to_index, in_dev, out_dev)
+    dev_set = read_data(1, 200000, in_dev, out_dev)
     train_set = read_data(read_from_index, read_to_index, in_train, out_train, FLAGS.max_train_data_size)
 
     train_bucket_sizes = [len(train_set[b]) for b in xrange(len(_buckets))]
