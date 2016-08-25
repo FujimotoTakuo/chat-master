@@ -70,6 +70,7 @@ def read_data(read_from_index, read_to_index, source_path, target_path, max_size
     counter += 1
     # カウンターがfromより小さいまたは、カウンターがtoより大きい -> 範囲外
     if counter < read_from_index or read_to_index < counter:
+      source, target = source_file.readline(), target_file.readline()
       continue
 
     if counter % 50 == 0:
