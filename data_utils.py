@@ -61,14 +61,14 @@ def create_vocabulary(vocabulary_path, data_path, max_vocabulary_size,
       for w in tokens:
         if "http" in w:
           isUrl = True
-          print("START  url exclude. " + w)
+          # print("START  url exclude. " + w)
           continue
         if isUrl:
             if p.match(w):
-                print("PROCESSING  url exclude. " + w)
+                # print("PROCESSING  url exclude. " + w)
                 continue
             else:
-                print("END  url exclude end. " + w)
+                # print("END  url exclude end. " + w)
                 isUrl = False
         word = re.sub(_DIGIT_RE, "0", w) if normalize_digits else w
         if word in vocab:
