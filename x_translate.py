@@ -65,6 +65,7 @@ def read_data(read_from_index, read_to_index, source_path, target_path, max_size
   source, target = source_file.readline(), target_file.readline()
   counter = 0
   counter2 = 0
+  print("read range is " + str(read_from_index) + " - " + str(read_to_index))
   while source and target and (not max_size or counter < max_size):
     counter += 1
     # カウンターがfromより小さいまたは、カウンターがtoより大きい -> 範囲外
