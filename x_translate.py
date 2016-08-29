@@ -296,6 +296,66 @@ def main(_):
 
 
 
+dec_session = None
+dec_model = None
+in_vocab = None
+rev_out_vocab = None
+
+def decode_main(sentence):
+  print("decode main")
+  global dec_model
+  global in_vocab
+  global rev_out_vocab
+  print ("Hello!!")
+
+  text = mf.mecab(sentence)
+  print("【DEBUG】 mecabed_sentence : " + text)
+
+  token_ids = data_utils.sentence_to_token_ids(text, in_vocab)
+  print("【DEBUG】 token_ids : " + str(token_ids) + " / len : " + str(len(token_ids)))
+  bucket_id = min([b for b in xrange(len(_buckets))
+                   if _buckets[b][0] > len(token_ids)])
+  print("【DEBUG】 use_bucket : " + str(bucket_id))
+
+  encoder_inputs, decoder_inputs, target_weights = dec_model.get_batch(
+      {bucket_id: [(token_ids, [])]}, bucket_id)
+
+  _, _, output_logits = dec_model.step(dec_session, encoder_inputs, decoder_inputs,
+                                       target_weights, bucket_id, True)
+
+  outputs = [int(np.argmax(logit, axis=1)) for logit in output_logits]
+
+  if data_utils.EOS_ID in outputs:
+        outputs = outputs[:outputs.index(data_utils.EOS_ID)]
+
+  print(" ".join([rev_out_vocab[output] for output in outputs]))
+  return " ".join([rev_out_vocab[output] for output in outputs])
+
+def init_main():
+  print("decode main")
+  global dec_model
+  global in_vocab
+  global rev_out_vocab
+  global dec_session
+  dec_session = tf.Session()
+  print ("Hello!!")
+  dec_model = create_model(dec_session, True)
+  dec_model.batch_size = 1
+
+  # datas_dir = "/home/dev10635gce006/tensorflow/temp1/chat-master"
+  # FLAGS.data_dir = datas_dir
+  # print(FLAGS.data_dir)
+
+  in_vocab_path = os.path.join(FLAGS.data_dir,
+                               "vocab_in.txt")
+  out_vocab_path = os.path.join(FLAGS.data_dir,
+                               "vocab_out.txt" )
+  print(in_vocab_path)
+  in_vocab, _ = data_utils.initialize_vocabulary(in_vocab_path)
+  _, rev_out_vocab = data_utils.initialize_vocabulary(out_vocab_path)
+  print("init end ")
+
+
 if __name__ == "__main__":
   print("run main")
   tf.app.run()
